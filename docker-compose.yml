@@ -1,0 +1,328 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # DATABASES & INFRASTRUCTURE
+  # ============================================================================
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: kreo-postgres
+    environment:
+      POSTGRES_DB: kreo_db
+      POSTGRES_USER: kreo
+      POSTGRES_PASSWORD: kreo_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./shared/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kreo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kreo-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: kreo-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kreo-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: kreo-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - kreo-network
+
+  # ============================================================================
+  # MICROSERVICES
+  # ============================================================================
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: kreo-auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=kreo_jwt_secret_change_in_production
+      - JWT_EXPIRES_IN=7d
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/auth-service:/app
+      - /app/node_modules
+
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    container_name: kreo-user-service
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/user-service:/app
+      - /app/node_modules
+
+  vendor-service:
+    build:
+      context: ./services/vendor-service
+      dockerfile: Dockerfile
+    container_name: kreo-vendor-service
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+      - PORT=3003
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/vendor-service:/app
+      - /app/node_modules
+
+  product-service:
+    build:
+      context: ./services/product-service
+      dockerfile: Dockerfile
+    container_name: kreo-product-service
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=development
+      - PORT=3004
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/product-service:/app
+      - /app/node_modules
+
+  order-service:
+    build:
+      context: ./services/order-service
+      dockerfile: Dockerfile
+    container_name: kreo-order-service
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=development
+      - PORT=3005
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - REDIS_URL=redis://redis:6379
+      - PAYMENT_SERVICE_URL=http://payment-service:3006
+      - SHIPPING_SERVICE_URL=http://shipping-service:3007
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/order-service:/app
+      - /app/node_modules
+
+  payment-service:
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
+    container_name: kreo-payment-service
+    ports:
+      - "3006:3006"
+    environment:
+      - NODE_ENV=development
+      - PORT=3006
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/payment-service:/app
+      - /app/node_modules
+
+  shipping-service:
+    build:
+      context: ./services/shipping-service
+      dockerfile: Dockerfile
+    container_name: kreo-shipping-service
+    ports:
+      - "3007:3007"
+    environment:
+      - NODE_ENV=development
+      - PORT=3007
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - SHIPPO_API_KEY=${SHIPPO_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/shipping-service:/app
+      - /app/node_modules
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
+    container_name: kreo-notification-service
+    ports:
+      - "3008:3008"
+    environment:
+      - NODE_ENV=development
+      - PORT=3008
+      - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
+      - REDIS_URL=redis://redis:6379
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kreo-network
+    volumes:
+      - ./services/notification-service:/app
+      - /app/node_modules
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: kreo-api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - USER_SERVICE_URL=http://user-service:3002
+      - VENDOR_SERVICE_URL=http://vendor-service:3003
+      - PRODUCT_SERVICE_URL=http://product-service:3004
+      - ORDER_SERVICE_URL=http://order-service:3005
+      - PAYMENT_SERVICE_URL=http://payment-service:3006
+      - SHIPPING_SERVICE_URL=http://shipping-service:3007
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - auth-service
+      - user-service
+      - vendor-service
+      - product-service
+      - order-service
+      - payment-service
+      - shipping-service
+    networks:
+      - kreo-network
+    volumes:
+      - ./api-gateway:/app
+      - /app/node_modules
+
+  # ============================================================================
+  # FRONTENDS
+  # ============================================================================
+
+  customer-app:
+    build:
+      context: ./frontend/customer-app
+      dockerfile: Dockerfile.dev
+    container_name: kreo-customer-app
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    volumes:
+      - ./frontend/customer-app:/app
+      - /app/node_modules
+    networks:
+      - kreo-network
+
+  vendor-portal:
+    build:
+      context: ./frontend/vendor-portal
+      dockerfile: Dockerfile.dev
+    container_name: kreo-vendor-portal
+    ports:
+      - "5174:5174"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    volumes:
+      - ./frontend/vendor-portal:/app
+      - /app/node_modules
+    networks:
+      - kreo-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  elasticsearch-data:
+
+networks:
+  kreo-network:
+    driver: bridge

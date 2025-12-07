@@ -1,0 +1,40 @@
+{
+  "name": "kreo-marketplace",
+  "version": "1.0.0",
+  "description": "Kreo - Multi-vendor B2C Marketplace Platform",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "frontend/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:*\"",
+    "dev:auth": "cd services/auth-service && npm run start:dev",
+    "dev:user": "cd services/user-service && npm run dev",
+    "dev:vendor": "cd services/vendor-service && npm run start:dev",
+    "dev:product": "cd services/product-service && npm run start:dev",
+    "dev:order": "cd services/order-service && npm run start:dev",
+    "dev:payment": "cd services/payment-service && npm run start:dev",
+    "dev:shipping": "cd services/shipping-service && npm run dev",
+    "dev:notification": "cd services/notification-service && npm run dev",
+    "dev:gateway": "cd api-gateway && npm run dev",
+    "dev:customer": "cd frontend/customer-app && npm run dev",
+    "dev:vendor-portal": "cd frontend/vendor-portal && npm run dev",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "db:migrate": "cd shared/database && npm run migrate",
+    "db:seed": "cd shared/database && npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

@@ -8,6 +8,7 @@ import { Order } from '../entities/order.entity';
 import { SubOrder } from '../entities/sub-order.entity';
 import { OrderItem } from '../entities/order-item.entity';
 import { CartService } from '../cart/cart.service';
+import { OwnershipChecker } from '../../../../shared/security/guards/ownership.guard';
 
 @Injectable()
 export class OrderService {
@@ -210,6 +211,7 @@ export class OrderService {
 
   /**
    * Get user orders
+   * ✅ SEGURO: Solo devuelve órdenes del usuario autenticado
    */
   async getUserOrders(userId: string) {
     return this.orderRepository.find({
@@ -221,10 +223,26 @@ export class OrderService {
 
   /**
    * Get order details
+   * ✅ PARCHE APLICADO: Verifica ownership antes de devolver la orden
+   * @param orderId - ID de la orden
+   * @param userId - ID del usuario autenticado (del JWT)
+   * @param userRole - Rol del usuario (permite acceso a admins)
    */
-  async getOrderDetails(orderId: string) {
-    const order = await this.orderRepository.findOne({ where: { id: orderId } });
+  async getOrderDetails(orderId: string, userId: string, userRole?: string) {
+    // ✅ Verificar que el usuario sea dueño de la orden o sea admin
+    const order = await OwnershipChecker.checkOwnership(
+      this.orderRepository,
+      orderId,
+      userId,
+      {
+        ownerField: 'user_id',
+        resourceName: 'Orden',
+        allowAdmin: true,
+        userRole: userRole,
+      }
+    );
 
+    // Si llegamos aquí, el usuario tiene permiso
     const subOrders = await this.subOrderRepository.find({
       where: { order_id: orderId },
     });

@@ -1,9 +1,11 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { Client } from '@elastic/elasticsearch';
 import { ConfigService } from '@nestjs/config';
 import { Product } from '../entities/product.entity';
+import { SecureQueryBuilder } from '../../../../shared/security/sql-injection-prevention';
+import { XSSSanitizer } from '../../../../shared/security/xss-sanitizer';
 
 @Injectable()
 export class ProductService {
@@ -47,14 +49,17 @@ export class ProductService {
   }
 
   async createProduct(vendorId: string, productData: any) {
-    const slug = this.generateSlug(productData.title);
-
-    const product = this.productRepository.create({
+    // ✅ Sanitizar campos de texto para prevenir XSS
+    const sanitizedData = {
       ...productData,
+      title: XSSSanitizer.sanitizeTitle(productData.title),
+      description: XSSSanitizer.sanitizeProductDescription(productData.description),
       vendor_id: vendorId,
-      slug,
+      slug: this.generateSlug(productData.title),
       status: productData.status || 'draft',
-    });
+    };
+
+    const product = this.productRepository.create(sanitizedData);
 
     await this.productRepository.save(product);
 
@@ -75,11 +80,17 @@ export class ProductService {
       throw new BadRequestException('Product not found');
     }
 
-    Object.assign(product, updateData);
-
+    // ✅ Sanitizar campos de texto antes de actualizar
+    const sanitizedUpdateData = { ...updateData };
     if (updateData.title) {
-      product.slug = this.generateSlug(updateData.title);
+      sanitizedUpdateData.title = XSSSanitizer.sanitizeTitle(updateData.title);
+      sanitizedUpdateData.slug = this.generateSlug(sanitizedUpdateData.title);
     }
+    if (updateData.description) {
+      sanitizedUpdateData.description = XSSSanitizer.sanitizeProductDescription(updateData.description);
+    }
+
+    Object.assign(product, sanitizedUpdateData);
 
     await this.productRepository.save(product);
 
@@ -247,23 +258,28 @@ export class ProductService {
   private async fallbackSearch(query: any) {
     const { q, page = 1, limit = 20 } = query;
 
+    // ✅ Validar paginación
+    const pagination = SecureQueryBuilder.validatePagination(page, limit);
+
     const where: any = { status: 'active' };
     if (q) {
-      where.title = Like(`%${q}%`);
+      // ✅ Sanitizar búsqueda para prevenir SQL injection
+      const safeSearch = SecureQueryBuilder.createLikeSearch(q);
+      where.title = ILike(safeSearch);
     }
 
     const [products, total] = await this.productRepository.findAndCount({
       where,
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: pagination.skip,
+      take: pagination.limit,
     });
 
     return {
       products,
       total,
-      page,
-      limit,
-      total_pages: Math.ceil(total / limit),
+      page: pagination.page,
+      limit: pagination.limit,
+      total_pages: Math.ceil(total / pagination.limit),
       facets: {},
     };
   }

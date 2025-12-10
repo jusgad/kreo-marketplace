@@ -24,11 +24,16 @@ Bienvenido a **Kreo Marketplace**, una plataforma de comercio electrónico donde
 
 ### Características Principales
 
+<<<<<<< HEAD
 - **Interfaz Moderna y Elegante**: Diseño atractivo con animaciones suaves y efectos visuales
 - **Modo Oscuro**: Cambia entre modo claro y oscuro según tu preferencia
 - **Amplio Catálogo**: Miles de productos de diferentes vendedores
 - **Búsqueda Avanzada**: Encuentra exactamente lo que buscas con filtros inteligentes
 - **Experiencia Responsive**: Navega cómodamente desde tu computadora, tablet o móvil
+=======
+- **Amplio Catálogo**: Miles de productos de diferentes vendedores
+- **Búsqueda Avanzada**: Encuentra exactamente lo que buscas con filtros inteligentes
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
 - **Compra Segura**: Pagos protegidos mediante Stripe
 - **Seguimiento en Tiempo Real**: Rastrea tus pedidos desde la compra hasta la entrega
 - **Reseñas Verificadas**: Lee opiniones de compradores reales
@@ -72,6 +77,7 @@ Para mayor seguridad, te recomendamos activar la autenticación de dos factores:
 4. Ingresa el código de 6 dígitos para confirmar
 5. Guarda los códigos de recuperación en un lugar seguro
 
+<<<<<<< HEAD
 ### Personalización - Modo Oscuro
 
 Kreo Marketplace ofrece un modo oscuro para una experiencia visual más cómoda, especialmente en ambientes con poca luz:
@@ -86,6 +92,8 @@ Kreo Marketplace ofrece un modo oscuro para una experiencia visual más cómoda,
    - Ahorra batería en dispositivos con pantalla OLED/AMOLED
    - Proporciona una experiencia visual elegante y moderna
 
+=======
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
 ---
 
 ## Búsqueda de Productos

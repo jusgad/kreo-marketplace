@@ -8,6 +8,7 @@ Bienvenido a la documentación completa del proyecto **Kreo Marketplace**. Aquí
 
 ```
 documentos/
+<<<<<<< HEAD
 ├── README.md                                   ← Estás aquí (Índice principal)
 ├── CONEXION-BASE-DATOS-DESPLIEGUE.md          ← Guía de conexión a BD
 ├── manuales/                                   ← Manuales de usuario
@@ -20,6 +21,10 @@ documentos/
 │   └── BASE-DATOS.md                         ← Esquema de base de datos
 ├── api/                                        ← Documentación de API
 │   └── GUIA-API-COMPLETA.md                  ← Referencia completa de API
+=======
+├── README.md                                   ← Estás aquí
+├── CONEXION-BASE-DATOS-DESPLIEGUE.md          ← Guía de conexión a BD
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
 └── parches-seguridad/                          ← Seguridad de la aplicación
     ├── README-PARCHES-SEGURIDAD.md            ← Documentación completa
     ├── INSTALACION-RAPIDA.md                  ← Guía de 15 minutos
@@ -85,6 +90,7 @@ cd ../..
 
 ## 📖 Guías Principales
 
+<<<<<<< HEAD
 ### 👥 Manuales de Usuario
 
 #### **[📄 Manual de Usuario - Cliente](./manuales/MANUAL-USUARIO-CLIENTE.md)**
@@ -168,6 +174,8 @@ Referencia completa de endpoints:
 
 ---
 
+=======
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
 ### 🗄️ Base de Datos
 
 **[📄 CONEXION-BASE-DATOS-DESPLIEGUE.md](./CONEXION-BASE-DATOS-DESPLIEGUE.md)**
@@ -463,7 +471,11 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 
 ## 📝 Notas de la Versión
 
+<<<<<<< HEAD
 ### v1.0.0 - Documentación Completa (2024-12-10)
+=======
+### v1.0.0 - Parches de Seguridad Aplicados (2025-12-09)
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
 
 **✅ Implementado:**
 - Sistema completo de parches de seguridad
@@ -473,7 +485,11 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - Validación de precios en servidor
 - Cookies HttpOnly y Secure
 - Guards de autorización
+<<<<<<< HEAD
 - **Documentación completa en español**
+=======
+- Documentación completa en español
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
 
 **🔧 Configuración Requerida:**
 - Instalar: `cookie-parser`, `helmet`
@@ -481,6 +497,7 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - Configurar Redis para rate limiting
 - Actualizar `.env` con secrets
 
+<<<<<<< HEAD
 **📖 Documentación Nueva:**
 - ✅ Manual de Usuario - Cliente
 - ✅ Manual de Vendedor
@@ -492,6 +509,13 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - ✅ Guía de conexión a base de datos
 - ✅ 5 guías de parches de seguridad
 - ✅ Script de verificación automática
+=======
+**📖 Documentación:**
+- Guía de conexión a base de datos
+- Guía de despliegue en múltiples plataformas
+- 5 guías de parches de seguridad
+- Script de verificación automática
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
 
 ---
 
@@ -534,6 +558,7 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 
 ---
 
+<<<<<<< HEAD
 *Última actualización: 10 de Diciembre, 2024*
 *Versión: 1.0.0*
 
@@ -559,3 +584,6 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 ---
 
 **¡Gracias por usar Kreo Marketplace!**
+=======
+*Última actualización: 9 de Diciembre, 2025*
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297

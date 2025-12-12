@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 // ==============================================================================
 // ARCHIVO: shared/security/rate-limiter.ts
 // FUNCIONALIDAD: Rate Limiting para prevenir ataques de fuerza bruta
@@ -8,6 +12,11 @@
 // - Headers de rate limit en respuestas (X-RateLimit-*)
 // ==============================================================================
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 /**
  * PARCHE DE SEGURIDAD #5A: Rate Limiting para Prevenir Fuerza Bruta
  *

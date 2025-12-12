@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 // ==============================================================================
 // COMPONENTE: Navbar.tsx
 // FUNCIONALIDAD: Barra de navegación principal de la aplicación
@@ -9,6 +13,30 @@
 // - Animaciones con Framer Motion
 // - Scroll effect: cambia apariencia al hacer scroll
 // ==============================================================================
+<<<<<<< HEAD
+=======
+=======
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../store'
+import { logout } from '../store/authSlice'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  ShoppingCart,
+  User,
+  Search,
+  Menu,
+  X,
+  Heart,
+  Package,
+  LogOut,
+  Settings,
+  Moon,
+  Sun
+} from 'lucide-react'
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 
 // Importar hooks de React para gestionar estado y efectos
 import { useState, useEffect } from 'react'
@@ -55,6 +83,7 @@ export default function Navbar() {
   // isAuthenticated: boolean que indica si el usuario está logueado
   // user: objeto con datos del usuario (nombre, email, etc.)
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth)
+<<<<<<< HEAD
 
   // SELECCIONAR ITEMS DEL CARRITO DESDE REDUX STORE
   // items: array de productos en el carrito
@@ -63,6 +92,23 @@ export default function Navbar() {
   // OBTENER DISPATCH PARA EJECUTAR ACCIONES DE REDUX
   const dispatch = useDispatch()
 
+=======
+
+  // SELECCIONAR ITEMS DEL CARRITO DESDE REDUX STORE
+  // items: array de productos en el carrito
+  const { items } = useSelector((state: RootState) => state.cart)
+
+  // OBTENER DISPATCH PARA EJECUTAR ACCIONES DE REDUX
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   // OBTENER FUNCIÓN NAVIGATE PARA NAVEGACIÓN PROGRAMÁTICA
   const navigate = useNavigate()
 
@@ -90,6 +136,10 @@ export default function Navbar() {
   // Ejemplo: [{quantity: 2}, {quantity: 3}] → 5
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   // EFFECT: DETECTAR SCROLL PARA CAMBIAR APARIENCIA DEL NAVBAR
   // Se ejecuta una sola vez al montar el componente (dependencias vacías [])
   useEffect(() => {
@@ -119,10 +169,30 @@ export default function Navbar() {
       // Navegar a página de productos con query param
       // encodeURIComponent: escapa caracteres especiales en la URL
       // Ejemplo: "laptop & mouse" → "laptop%20%26%20mouse"
+<<<<<<< HEAD
+=======
+=======
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`)
     }
   }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   // HANDLER: TOGGLE DE MODO OSCURO
   const toggleDarkMode = () => {
     // Invertir estado de dark mode
@@ -131,6 +201,13 @@ export default function Navbar() {
     // Agregar/quitar clase 'dark' del elemento <html>
     // Tailwind CSS usa esta clase para aplicar estilos dark:
     // Esta clase activa todos los estilos con prefijo dark:
+<<<<<<< HEAD
+=======
+=======
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
     document.documentElement.classList.toggle('dark')
   }
 

@@ -8,6 +8,16 @@ Bienvenido a la documentación completa del proyecto **Kreo Marketplace**. Aquí
 
 ```
 documentos/
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 ├── README.md                                   ← Estás aquí (Índice principal)
 ├── CONEXION-BASE-DATOS-DESPLIEGUE.md          ← Guía de conexión a BD
 ├── manuales/                                   ← Manuales de usuario
@@ -20,6 +30,19 @@ documentos/
 │   └── BASE-DATOS.md                         ← Esquema de base de datos
 ├── api/                                        ← Documentación de API
 │   └── GUIA-API-COMPLETA.md                  ← Referencia completa de API
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+├── README.md                                   ← Estás aquí
+├── CONEXION-BASE-DATOS-DESPLIEGUE.md          ← Guía de conexión a BD
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 └── parches-seguridad/                          ← Seguridad de la aplicación
     ├── README-PARCHES-SEGURIDAD.md            ← Documentación completa
     ├── INSTALACION-RAPIDA.md                  ← Guía de 15 minutos
@@ -85,6 +108,16 @@ cd ../..
 
 ## 📖 Guías Principales
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 ### 👥 Manuales de Usuario
 
 #### **[📄 Manual de Usuario - Cliente](./manuales/MANUAL-USUARIO-CLIENTE.md)**
@@ -168,6 +201,17 @@ Referencia completa de endpoints:
 
 ---
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 ### 🗄️ Base de Datos
 
 **[📄 CONEXION-BASE-DATOS-DESPLIEGUE.md](./CONEXION-BASE-DATOS-DESPLIEGUE.md)**
@@ -463,7 +507,23 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 
 ## 📝 Notas de la Versión
 
+<<<<<<< HEAD
 ### v1.0.0 - Documentación Completa (2024-12-10)
+=======
+<<<<<<< HEAD
+### v1.0.0 - Documentación Completa (2024-12-10)
+=======
+<<<<<<< HEAD
+### v1.0.0 - Documentación Completa (2024-12-10)
+=======
+<<<<<<< HEAD
+### v1.0.0 - Documentación Completa (2024-12-10)
+=======
+### v1.0.0 - Parches de Seguridad Aplicados (2025-12-09)
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 
 **✅ Implementado:**
 - Sistema completo de parches de seguridad
@@ -473,7 +533,23 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - Validación de precios en servidor
 - Cookies HttpOnly y Secure
 - Guards de autorización
+<<<<<<< HEAD
 - **Documentación completa en español**
+=======
+<<<<<<< HEAD
+- **Documentación completa en español**
+=======
+<<<<<<< HEAD
+- **Documentación completa en español**
+=======
+<<<<<<< HEAD
+- **Documentación completa en español**
+=======
+- Documentación completa en español
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 
 **🔧 Configuración Requerida:**
 - Instalar: `cookie-parser`, `helmet`
@@ -481,6 +557,16 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - Configurar Redis para rate limiting
 - Actualizar `.env` con secrets
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 **📖 Documentación Nueva:**
 - ✅ Manual de Usuario - Cliente
 - ✅ Manual de Vendedor
@@ -492,6 +578,22 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 - ✅ Guía de conexión a base de datos
 - ✅ 5 guías de parches de seguridad
 - ✅ Script de verificación automática
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+**📖 Documentación:**
+- Guía de conexión a base de datos
+- Guía de despliegue en múltiples plataformas
+- 5 guías de parches de seguridad
+- Script de verificación automática
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 
 ---
 
@@ -534,6 +636,16 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 
 ---
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 *Última actualización: 10 de Diciembre, 2024*
 *Versión: 1.0.0*
 
@@ -559,3 +671,15 @@ Si encuentras un bug o vulnerabilidad de seguridad:
 ---
 
 **¡Gracias por usar Kreo Marketplace!**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+*Última actualización: 9 de Diciembre, 2025*
+>>>>>>> 61bd6da31b5f5b4c9db13783de7416aee6d29297
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 // ==============================================================================
 // ARCHIVO: shared/security/sql-injection-prevention.ts
 // FUNCIONALIDAD: Prevención de inyecciones SQL/NoSQL
@@ -9,6 +13,11 @@
 // - Ejemplos de migración de código inseguro a seguro
 // ==============================================================================
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 /**
  * PARCHE DE SEGURIDAD #1: Prevención de Inyección SQL/NoSQL
  *

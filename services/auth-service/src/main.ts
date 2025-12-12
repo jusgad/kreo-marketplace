@@ -6,6 +6,7 @@
 // - Configura headers de seguridad para prevenir XSS, clickjacking, etc.
 // - Habilita parsing de cookies para tokens HTTP-Only
 // ==============================================================================
+<<<<<<< HEAD
 
 // Importar NestFactory: clase que permite crear una aplicación NestJS
 // NestFactory.create() inicializa el servidor HTTP y el sistema de inyección de dependencias
@@ -28,6 +29,36 @@ import helmet from 'helmet';
 // Contiene todos los imports, controllers, providers del servicio
 import { AppModule } from './app.module';
 
+=======
+
+// Importar NestFactory: clase que permite crear una aplicación NestJS
+// NestFactory.create() inicializa el servidor HTTP y el sistema de inyección de dependencias
+import { NestFactory } from '@nestjs/core';
+
+// Importar ValidationPipe: pipe que valida automáticamente DTOs
+// Trabaja con decoradores de class-validator (@IsEmail, @IsString, etc.)
+import { ValidationPipe } from '@nestjs/common';
+<<<<<<< HEAD
+
+// Importar cookie-parser: middleware que parsea cookies de las peticiones
+// Permite acceder a req.cookies en los controladores
+// Necesario para leer tokens JWT almacenados en cookies HTTP-Only
+import * as cookieParser from 'cookie-parser';
+
+// Importar helmet: middleware que configura headers de seguridad HTTP
+// Protege contra XSS, clickjacking, MIME sniffing, etc.
+import helmet from 'helmet';
+
+// Importar AppModule: módulo raíz de la aplicación
+// Contiene todos los imports, controllers, providers del servicio
+=======
+import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+import { AppModule } from './app.module';
+import { SecureCORS, SecurityHeaders } from '../../../shared/security/secure-session';
+
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 // Importar utilidades de seguridad personalizadas
 // SecureCORS: configuración de CORS segura
 // SecurityHeaders: configuración de headers de seguridad con Helmet
@@ -40,6 +71,10 @@ async function bootstrap() {
   // AppModule contiene toda la configuración del servicio de autenticación
   const app = await NestFactory.create(AppModule);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   // ===========================================================================
   // ✅ CONFIGURACIÓN DE SEGURIDAD GLOBAL
   // Cada configuración protege contra tipos específicos de ataques
@@ -93,6 +128,32 @@ async function bootstrap() {
   // 4. CONFIGURAR VALIDATION PIPE GLOBAL
   // Este pipe valida y transforma automáticamente todos los DTOs de la aplicación
   // Es la primera línea de defensa contra datos maliciosos
+<<<<<<< HEAD
+=======
+=======
+  // ✅ Configuración de seguridad global
+
+  // 1. Headers de seguridad con Helmet
+  app.use(helmet(SecurityHeaders.getHelmetOptions()));
+
+  // 2. Cookie parser (necesario para cookies HttpOnly)
+  app.use(cookieParser());
+
+  // 3. CORS seguro
+  const corsOptions = process.env.NODE_ENV === 'production'
+    ? SecureCORS.getProductionCORSOptions()
+    : {
+        origin: process.env.CUSTOMER_APP_URL || 'http://localhost:5173',
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+      };
+
+  app.enableCors(corsOptions);
+
+  // 4. ValidationPipe con transformación (crítico para sanitización)
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   app.useGlobalPipes(new ValidationPipe({
     // whitelist: true → ELIMINA propiedades no definidas en el DTO
     // Previene ataques de "mass assignment" donde el atacante envía campos extra
@@ -103,6 +164,10 @@ async function bootstrap() {
     // Más estricto que whitelist: en lugar de ignorar, devuelve error 400
     // Alerta al desarrollador cuando el frontend envía campos incorrectos
     forbidNonWhitelisted: true,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 
     // transform: true → HABILITA transformaciones automáticas
     // Permite usar decoradores @Transform() en DTOs para sanitizar datos
@@ -129,6 +194,20 @@ async function bootstrap() {
   // OBTENER PUERTO DEL SERVIDOR
   // Lee puerto de variable de entorno PORT, o usa 3001 por defecto
   // En producción, el puerto será asignado por el orquestador (Docker, K8s)
+<<<<<<< HEAD
+=======
+=======
+    transform: true, // ✅ Habilita transformaciones (@Transform en DTOs)
+    transformOptions: {
+      enableImplicitConversion: false, // Más seguro
+    },
+  }));
+
+  // 5. Deshabilitar header X-Powered-By
+  app.getHttpAdapter().getInstance().disable('x-powered-by');
+
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   const port = process.env.PORT || 3001;
 
   // INICIAR EL SERVIDOR

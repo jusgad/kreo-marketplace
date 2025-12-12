@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==============================================================================
 // COMPONENTE: ProductCard.tsx
 // FUNCIONALIDAD: Tarjeta de producto con animaciones y interacciones
@@ -40,17 +41,44 @@ interface ProductCardProps {
 
 // COMPONENTE: ProductCard
 // Recibe props destructuradas con valores por defecto
+=======
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { ShoppingCart, Heart, Star, Eye, TrendingUp } from 'lucide-react'
+
+interface ProductCardProps {
+  id: string
+  title: string
+  base_price: number
+  images?: any[]
+  vendor_id?: string
+  status?: string
+  rating?: number
+  reviews?: number
+  discount?: number
+  isTrending?: boolean
+  isNew?: boolean
+}
+
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 export default function ProductCard({
   id,
   title,
   base_price,
   images,
+<<<<<<< HEAD
   rating = 4.5,          // Default: 4.5 estrellas si no se proporciona
   reviews = 0,          // Default: 0 reviews si no se proporciona
+=======
+  rating = 4.5,
+  reviews = 0,
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
   discount,
   isTrending,
   isNew,
 }: ProductCardProps) {
+<<<<<<< HEAD
   // ESTADO LOCAL: isHovered
   // true cuando el mouse está sobre la tarjeta
   // Controla animaciones y visibilidad de botones
@@ -92,30 +120,69 @@ export default function ProductCard({
           <motion.div
             initial={{ scale: 0 }}               // Empieza con tamaño 0
             animate={{ scale: 1 }}               // Crece a tamaño normal
+=======
+  const [isHovered, setIsHovered] = useState(false)
+  const [isLiked, setIsLiked] = useState(false)
+
+  const imageUrl = images?.[0]?.url || 'https://via.placeholder.com/400x400?text=Product'
+  const discountedPrice = discount ? base_price * (1 - discount / 100) : base_price
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      whileHover={{ y: -8 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-soft hover:shadow-glass-hover transition-all duration-300"
+    >
+      {/* Badges */}
+      <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+        {discount && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
             className="px-3 py-1 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-xs font-bold rounded-full shadow-lg"
           >
             -{discount}%
           </motion.div>
         )}
+<<<<<<< HEAD
 
         {/* Badge de "NEW" (solo se muestra si isNew es true) */}
+=======
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
         {isNew && (
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
+<<<<<<< HEAD
             transition={{ delay: 0.1 }}          // Delay de 0.1s para efecto escalonado
+=======
+            transition={{ delay: 0.1 }}
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
             className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xs font-bold rounded-full shadow-lg"
           >
             NEW
           </motion.div>
         )}
+<<<<<<< HEAD
 
         {/* Badge de "Trending" (solo se muestra si isTrending es true) */}
+=======
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
         {isTrending && (
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
+<<<<<<< HEAD
             transition={{ delay: 0.2 }}          // Delay de 0.2s para efecto escalonado
+=======
+            transition={{ delay: 0.2 }}
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
             className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-xs font-bold rounded-full shadow-lg flex items-center gap-1"
           >
             <TrendingUp className="w-3 h-3" />
@@ -124,6 +191,7 @@ export default function ProductCard({
         )}
       </div>
 
+<<<<<<< HEAD
       {/* SECCIÓN: ACTION BUTTONS (Esquina superior derecha) */}
       {/* Botones de acción: favoritos y quick view */}
       <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
@@ -145,11 +213,29 @@ export default function ProductCard({
           }`}
         >
           {/* Icono de corazón, relleno si está liked */}
+=======
+      {/* Action Buttons */}
+      <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={(e) => {
+            e.preventDefault()
+            setIsLiked(!isLiked)
+          }}
+          className={`p-2.5 rounded-full backdrop-blur-md transition-all duration-300 ${
+            isLiked
+              ? 'bg-red-500 text-white shadow-lg'
+              : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800'
+          }`}
+        >
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
           <Heart
             className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`}
           />
         </motion.button>
 
+<<<<<<< HEAD
         {/* Botón de Quick View (solo visible al hacer hover en la tarjeta) */}
         {/* AnimatePresence permite animar la entrada/salida del elemento */}
         <AnimatePresence>
@@ -161,6 +247,16 @@ export default function ProductCard({
               className="flex flex-col gap-2"
             >
               {/* Link a la página de detalle del producto */}
+=======
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="flex flex-col gap-2"
+            >
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
               <Link to={`/products/${id}`}>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
@@ -175,6 +271,7 @@ export default function ProductCard({
         </AnimatePresence>
       </div>
 
+<<<<<<< HEAD
       {/* SECCIÓN: IMAGEN DEL PRODUCTO */}
       {/* Link clickeable que navega a la página de detalle */}
       <Link to={`/products/${id}`} className="block relative overflow-hidden aspect-square">
@@ -192,10 +289,27 @@ export default function ProductCard({
         <motion.div
           initial={{ opacity: 0 }}                         // Empieza invisible
           animate={{ opacity: isHovered ? 1 : 0 }}         // Aparece al hacer hover
+=======
+      {/* Image */}
+      <Link to={`/products/${id}`} className="block relative overflow-hidden aspect-square">
+        <motion.img
+          src={imageUrl}
+          alt={title}
+          className="w-full h-full object-cover"
+          animate={{ scale: isHovered ? 1.1 : 1 }}
+          transition={{ duration: 0.4 }}
+        />
+
+        {/* Gradient Overlay on Hover */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
           className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"
         />
       </Link>
 
+<<<<<<< HEAD
       {/* SECCIÓN: CONTENIDO (Título, Rating, Precio, Botón) */}
       <div className="p-4 space-y-3">
         {/* Título del producto */}
@@ -203,10 +317,18 @@ export default function ProductCard({
           <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors min-h-[3rem]">
             {/* line-clamp-2: limita a 2 líneas con ... */}
             {/* min-h-[3rem]: altura mínima para alinear todas las tarjetas */}
+=======
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        {/* Title */}
+        <Link to={`/products/${id}`}>
+          <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors min-h-[3rem]">
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
             {title}
           </h3>
         </Link>
 
+<<<<<<< HEAD
         {/* Rating con estrellas */}
         <div className="flex items-center gap-2">
           {/* Estrellas */}
@@ -221,17 +343,33 @@ export default function ProductCard({
                   i < Math.floor(rating)                    // Math.floor redondea hacia abajo
                     ? 'fill-yellow-400 text-yellow-400'     // Estrella llena amarilla
                     : 'text-gray-300 dark:text-gray-600'    // Estrella vacía gris
+=======
+        {/* Rating */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 ${
+                  i < Math.floor(rating)
+                    ? 'fill-yellow-400 text-yellow-400'
+                    : 'text-gray-300 dark:text-gray-600'
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
                 }`}
               />
             ))}
           </div>
+<<<<<<< HEAD
 
           {/* Cantidad de reviews */}
+=======
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
           <span className="text-sm text-gray-600 dark:text-gray-400">
             ({reviews})
           </span>
         </div>
 
+<<<<<<< HEAD
         {/* Precio con descuento */}
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2">
@@ -242,6 +380,14 @@ export default function ProductCard({
             </span>
 
             {/* Precio original tachado (solo se muestra si hay descuento) */}
+=======
+        {/* Price */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+              ${discountedPrice.toFixed(2)}
+            </span>
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
             {discount && (
               <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
                 ${base_price.toFixed(2)}
@@ -250,6 +396,7 @@ export default function ProductCard({
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Botón "Add to Cart" */}
         <motion.button
           whileHover={{ scale: 1.02 }}                     // Crece 2% al hacer hover
@@ -258,6 +405,14 @@ export default function ProductCard({
         >
           {/* Icono de carrito con animación bounce sutil al hacer hover */}
           {/* group/btn permite aplicar animación al icono cuando se hace hover en el botón */}
+=======
+        {/* Add to Cart Button */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+        >
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
           <ShoppingCart className="w-5 h-5 group-hover/btn:animate-bounce-subtle" />
           Add to Cart
         </motion.button>
@@ -266,6 +421,10 @@ export default function ProductCard({
   )
 }
 
+<<<<<<< HEAD
 // IMPORTAR AnimatePresence
 // (Se importa al final para claridad en el código, aunque debería estar arriba)
+=======
+// AnimatePresence component (imported from framer-motion, but adding it here for clarity)
+>>>>>>> 5c58cbb0a02e4f656de20081575e400ac8c750a5
 import { AnimatePresence } from 'framer-motion'

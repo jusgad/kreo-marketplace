@@ -133,15 +133,32 @@ Abre tu navegador y verifica:
 
 ```
 ✓ App de Cliente: http://localhost:5173
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
   - Interfaz moderna con Dark Mode
   - Animaciones fluidas con Framer Motion
   - Iconos con Lucide React
   - Diseño responsive (móvil, tablet, desktop)
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
 ✓ Portal de Vendedor: http://localhost:5174
 ✓ API Gateway: http://localhost:3000/health
 ```
 
+<<<<<<< HEAD
 Si ves las aplicaciones con el nuevo diseño moderno, ¡la instalación fue exitosa!
+=======
+<<<<<<< HEAD
+Si ves las aplicaciones con el nuevo diseño moderno, ¡la instalación fue exitosa!
+=======
+Si ves las aplicaciones, ¡la instalación fue exitosa!
+>>>>>>> 9de893df4f4c545582e898a79e4b93c20a5dd422
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
 
 ---
 

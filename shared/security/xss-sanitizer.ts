@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==============================================================================
 // ARCHIVO: shared/security/xss-sanitizer.ts
 // FUNCIONALIDAD: Sanitización de entrada para prevenir ataques XSS
@@ -8,6 +9,8 @@
 // - Whitelist configurable de tags y atributos permitidos
 // ==============================================================================
 
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
 /**
  * PARCHE DE SEGURIDAD #3: Prevención de Cross-Site Scripting (XSS)
  *

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==============================================================================
 // ARCHIVO: services/auth-service/src/auth/auth.controller.ts
 // FUNCIONALIDAD: Controlador de autenticación y autorización
@@ -8,6 +9,8 @@
 // - Protege rutas con guards (JWT, rate limiting)
 // ==============================================================================
 
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
 import { Controller, Post, Body, UseGuards, Request, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
@@ -29,7 +32,11 @@ export class AuthController {
   // ===========================================================================
   @Post('register')
   @UseGuards(RateLimitGuard)
+<<<<<<< HEAD
   @RegisterRateLimit()  // ✅ 3 registros por hora por IP
+=======
+  @RegisterRateLimit() // ✅ 3 registros por hora por IP
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
@@ -43,7 +50,11 @@ export class AuthController {
   // ===========================================================================
   @Post('login')
   @UseGuards(RateLimitGuard)
+<<<<<<< HEAD
   @LoginRateLimit()  // ✅ 5 intentos de login por minuto
+=======
+  @LoginRateLimit() // ✅ 5 intentos de login por minuto
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
   async login(
     @Body() loginDto: LoginDto,
     @Request() req,
@@ -53,7 +64,10 @@ export class AuthController {
     const result = await this.authService.login(loginDto, ip);
 
     // ✅ Establecer tokens en cookies HTTP-Only y Secure
+<<<<<<< HEAD
     // Previene acceso desde JavaScript (protección contra XSS)
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
     SecureSession.setAccessTokenCookie(res, result.accessToken);
     SecureSession.setRefreshTokenCookie(res, result.refreshToken);
 
@@ -82,6 +96,17 @@ export class AuthController {
     SecureSession.setAccessTokenCookie(res, result.accessToken);
 
     return { message: 'Token actualizado' };
+<<<<<<< HEAD
+=======
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    // ✅ Limpiar cookies de sesión
+    SecureSession.clearSessionCookies(res);
+    return { message: 'Logout exitoso' };
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
   }
 
   // ===========================================================================

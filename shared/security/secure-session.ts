@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ==============================================================================
 // ARCHIVO: shared/security/secure-session.ts
 // FUNCIONALIDAD: Gestión segura de sesiones y cookies
@@ -9,6 +10,8 @@
 // - Configuración de sesiones con Redis Store
 // ==============================================================================
 
+=======
+>>>>>>> c731df26401408171e200c4d85d5708ac1e76637
 /**
  * PARCHE DE SEGURIDAD #5B: Configuración de Sesiones y Cookies Seguras
  *

@@ -1,3 +1,13 @@
+# ==============================================================================
+# ARCHIVO: docker-compose.yml (Raíz del Proyecto)
+# FUNCIONALIDAD: Orquestación de contenedores para el entorno de desarrollo
+# - Define servicios de infraestructura (PostgreSQL, Redis, Elasticsearch)
+# - Configura microservicios backend (Auth, User, Vendor, Product, Order, etc.)
+# - Configura aplicaciones frontend (Customer App, Vendor Portal)
+# - Establece redes y volúmenes para comunicación entre contenedores
+# - Gestiona health checks y dependencias entre servicios
+# ==============================================================================
+
 version: '3.8'
 
 services:
@@ -5,54 +15,60 @@ services:
   # DATABASES & INFRASTRUCTURE
   # ============================================================================
 
+  # PostgreSQL: Base de datos relacional principal
+  # PostgreSQL: Base de datos relacional principal
   postgres:
     image: postgres:15-alpine
     container_name: kreo-postgres
     environment:
-      POSTGRES_DB: kreo_db
-      POSTGRES_USER: kreo
-      POSTGRES_PASSWORD: kreo_dev_password
+      POSTGRES_DB: kreo_db                          # Nombre de la base de datos
+      POSTGRES_USER: kreo                           # Usuario de PostgreSQL
+      POSTGRES_PASSWORD: kreo_dev_password          # Contraseña (cambiar en producción)
     ports:
-      - "5432:5432"
+      - "5432:5432"                                  # Puerto expuesto al host
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./shared/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data      # Persistencia de datos
+      - ./shared/database/init.sql:/docker-entrypoint-initdb.d/init.sql  # Script de inicialización
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kreo"]
+      test: ["CMD-SHELL", "pg_isready -U kreo"]     # Verifica disponibilidad de la BD
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - kreo-network
 
+  # Redis: Almacenamiento en caché y gestión de sesiones
+  # Redis: Almacenamiento en caché y gestión de sesiones
   redis:
     image: redis:7-alpine
     container_name: kreo-redis
     ports:
-      - "6379:6379"
+      - "6379:6379"                                  # Puerto de Redis
     volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes
+      - redis-data:/data                             # Persistencia de datos
+    command: redis-server --appendonly yes           # Habilita persistencia AOF
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "ping"]             # Verifica disponibilidad
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - kreo-network
 
+  # Elasticsearch: Motor de búsqueda para productos
+  # Elasticsearch: Motor de búsqueda para productos
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
     container_name: kreo-elasticsearch
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node                   # Modo nodo único para desarrollo
+      - xpack.security.enabled=false                 # Desactiva seguridad (solo dev)
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"            # Límites de memoria JVM
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "9200:9200"                                  # Puerto HTTP
+      - "9300:9300"                                  # Puerto de transporte
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-data:/usr/share/elasticsearch/data  # Persistencia de índices
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
       interval: 30s
@@ -65,29 +81,31 @@ services:
   # MICROSERVICES
   # ============================================================================
 
+  # Auth Service: Gestión de autenticación y autorización (JWT, sesiones)
+  # Auth Service: Gestión de autenticación y autorización (JWT, sesiones)
   auth-service:
     build:
       context: ./services/auth-service
       dockerfile: Dockerfile
     container_name: kreo-auth-service
     ports:
-      - "3001:3001"
+      - "3001:3001"                                  # Puerto del servicio de autenticación
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=development                         # Entorno de desarrollo
       - PORT=3001
       - DATABASE_URL=postgresql://kreo:kreo_dev_password@postgres:5432/kreo_db
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://redis:6379                 # URL de Redis para sesiones
       - JWT_SECRET=kreo_jwt_secret_change_in_production
-      - JWT_EXPIRES_IN=7d
+      - JWT_EXPIRES_IN=7d                            # Tokens válidos por 7 días
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_healthy                   # Espera a que PostgreSQL esté listo
       redis:
-        condition: service_healthy
+        condition: service_healthy                   # Espera a que Redis esté listo
     networks:
       - kreo-network
     volumes:
-      - ./services/auth-service:/app
+      - ./services/auth-service:/app                 # Hot reload en desarrollo
       - /app/node_modules
 
   user-service:

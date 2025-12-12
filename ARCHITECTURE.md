@@ -8,7 +8,7 @@ Kreo is a multi-vendor B2C marketplace built with a microservices architecture, 
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18 + Vite + Redux Toolkit + TailwindCSS |
+| Frontend | React 18 + Vite + Redux Toolkit + TailwindCSS + Framer Motion + Lucide React |
 | API Gateway | Express.js with proxy middleware |
 | Microservices | NestJS + Express |
 | Database | PostgreSQL 15 |
@@ -19,6 +19,42 @@ Kreo is a multi-vendor B2C marketplace built with a microservices architecture, 
 | Container | Docker |
 | Orchestration | Kubernetes (EKS/GKE) |
 | Cloud | AWS/GCP |
+
+---
+
+## 🎨 Frontend Architecture
+
+### Customer App Design System
+
+**Visual Design:**
+- **Glassmorphism**: Translucent navbar with backdrop blur effects
+- **Gradients**: Vibrant color gradients for CTAs and hero sections
+- **Dark Mode**: Complete theme switching with localStorage persistence
+- **Animations**: Framer Motion for smooth transitions and micro-interactions
+
+**UI Components:**
+- **Navbar**: Fixed navigation with search, cart badge, user menu
+- **Product Cards**: Interactive cards with hover effects, badges, wishlist
+- **Filter Sidebar**: Collapsible filters (categories, price range, rating)
+- **Loading States**: Elegant skeleton screens for all async operations
+
+**State Management:**
+- Redux Toolkit for global state (auth, cart, products)
+- Local state for UI interactions (modals, dropdowns)
+- Redux Persist for cart persistence across sessions
+
+**Performance Optimizations:**
+- Lazy loading for route-based code splitting
+- Memoization with React.memo for expensive renders
+- Debounced search inputs
+- Optimized animations using transform/opacity
+
+**Accessibility:**
+- WCAG 2.1 AA compliance
+- ARIA labels and roles
+- Keyboard navigation support
+- Screen reader friendly
+- Focus management
 
 ---
 

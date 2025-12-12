@@ -111,6 +111,7 @@ Terminal 6 - Customer App:
 ```bash
 cd frontend/customer-app
 npm install
+# Dependencias adicionales: framer-motion (animaciones), lucide-react (iconos)
 npm run dev
 ```
 
@@ -124,6 +125,8 @@ npm run dev
 ### 7. Access Applications
 
 - **Customer App:** http://localhost:5173
+  - Interfaz moderna con Dark Mode, glassmorphism y animaciones fluidas
+  - Incluye: Hero Section, Catálogo de productos, Carrito inteligente, Filtros avanzados
 - **Vendor Portal:** http://localhost:5174
 - **API Gateway:** http://localhost:3000
 - **API Health Check:** http://localhost:3000/health

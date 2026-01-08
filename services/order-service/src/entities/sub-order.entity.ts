@@ -1,22 +1,36 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Index, OneToMany } from 'typeorm';
 import { Order } from './order.entity';
+import { OrderItem } from './order-item.entity';
+
+// ==============================================================================
+// PERFORMANCE OPTIMIZATIONS APPLIED:
+// - Added composite index on (order_id, vendor_id) for order lookups
+// - Added index on vendor_id for vendor dashboard queries
+// - Added index on status for filtering
+// - Added lazy loading relationships
+// - Optimized column types
+// ==============================================================================
 
 @Entity('sub_orders')
+@Index(['order_id', 'vendor_id']) // Composite index for order and vendor lookups
+@Index(['vendor_id', 'status']) // For vendor dashboard filtering
+@Index(['status']) // For status filtering
+@Index(['created_at']) // For date sorting
 export class SubOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   order_id: string;
 
-  @ManyToOne(() => Order)
+  @ManyToOne(() => Order, order => order.sub_orders, { lazy: true })
   @JoinColumn({ name: 'order_id' })
   order: Order;
 
-  @Column()
+  @Column({ type: 'uuid' })
   vendor_id: string;
 
-  @Column()
+  @Column({ length: 50 })
   suborder_number: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
@@ -37,10 +51,10 @@ export class SubOrder {
   @Column('decimal', { precision: 10, scale: 2 })
   vendor_payout: number;
 
-  @Column({ default: 'pending' })
+  @Column({ type: 'varchar', length: 20, default: 'pending' })
   status: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 100 })
   tracking_number: string;
 
   @CreateDateColumn()
@@ -48,4 +62,8 @@ export class SubOrder {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Lazy loading relationship
+  @OneToMany(() => OrderItem, orderItem => orderItem.sub_order)
+  items: OrderItem[];
 }

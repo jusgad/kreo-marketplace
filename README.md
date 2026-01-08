@@ -24,7 +24,8 @@ Kreo es una plataforma de marketplace escalable de nivel empresarial que permite
 - **Pagos Divididos Multi-Vendor**: Cálculo y distribución automatizada de comisiones vía Stripe Connect
 - **Búsqueda en Tiempo Real**: Descubrimiento de productos potenciado por Elasticsearch con filtros facetados
 - **Arquitectura de Microservicios**: Servicios escalables independientemente con NestJS
-- **Stack Tecnológico Moderno**: React 18, TypeScript, Redux Toolkit, TailwindCSS
+- **Frontend Moderno y Atractivo**: Interfaz elegante con React 18, Framer Motion, TailwindCSS, Dark Mode y animaciones fluidas
+- **Stack Tecnológico Moderno**: React 18, TypeScript, Redux Toolkit, TailwindCSS, Framer Motion
 - **Listo para Producción**: Deployment con Docker/Kubernetes, monitoreo y observabilidad
 - **Seguro por Diseño**: Autenticación JWT, 2FA, rate limiting, pagos conformes a PCI-DSS
 
@@ -34,11 +35,15 @@ Kreo es una plataforma de marketplace escalable de nivel empresarial que permite
 
 ### Para Clientes
 
-- **Búsqueda Avanzada de Productos**: Búsqueda de texto completo con filtros (categoría, rango de precio, vendedor)
+- **Interfaz Moderna y Atractiva**: Diseño con glassmorphism, gradientes suaves y animaciones fluidas
+- **Dark Mode**: Soporte completo para modo oscuro con toggle integrado
+- **Búsqueda Avanzada de Productos**: Búsqueda de texto completo con filtros (categoría, rango de precio, rating)
 - **Carrito de Compras Inteligente**: Carrito multi-vendor con agrupación automática por vendedor
+- **Experiencia Responsive**: Diseño optimizado para móvil, tablet y desktop
 - **Checkout Seguro**: Procesamiento de pagos conforme a PCI con Stripe
 - **Seguimiento de Órdenes**: Actualizaciones de estado en tiempo real y seguimiento de envíos
 - **Cuentas de Usuario**: Gestión de perfil con soporte para 2FA
+- **Micro-interacciones**: Animaciones suaves y feedback visual en cada acción
 
 ### Para Vendedores
 
@@ -164,7 +169,7 @@ Para instrucciones detalladas de instalación, ver [SETUP.md](./SETUP.md).
 
 | Capa | Tecnología |
 |------|-----------|
-| **Frontend** | React 18, TypeScript, Vite, Redux Toolkit, TailwindCSS |
+| **Frontend** | React 18, TypeScript, Vite, Redux Toolkit, TailwindCSS, Framer Motion, Lucide React |
 | **API Gateway** | Express.js, http-proxy-middleware, express-rate-limit |
 | **Microservicios** | NestJS, TypeORM, Passport.js |
 | **Base de Datos** | PostgreSQL 15 |

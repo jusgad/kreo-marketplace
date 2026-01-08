@@ -1,0 +1,39 @@
+# ==============================================================================
+# Docker Compose para Nginx como Reverse Proxy
+# Agregar a tu docker-compose principal o usar standalone
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: kreo-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - api-gateway
+      - customer-app
+      - vendor-portal
+    networks:
+      - kreo-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  nginx-logs:
+    driver: local
+
+networks:
+  kreo-network:
+    external: true

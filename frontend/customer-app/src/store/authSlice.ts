@@ -1,3 +1,13 @@
+/**
+ * SECURITY FIX: Auth slice corregido para usar cookies HTTP-Only
+ *
+ * CAMBIOS APLICADOS:
+ * - Eliminado almacenamiento de tokens en localStorage (vulnerable a XSS)
+ * - Los tokens ahora se manejan automáticamente vía cookies HTTP-Only
+ * - El estado solo mantiene información del usuario, NO tokens
+ * - Las cookies son gestionadas por el backend (más seguro)
+ */
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface User {
@@ -6,38 +16,81 @@ interface User {
   role: string
   first_name?: string
   last_name?: string
+  email_verified?: boolean
 }
 
 interface AuthState {
   user: User | null
-  token: string | null
   isAuthenticated: boolean
+  isLoading: boolean
+  error: string | null
 }
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem('token'),
-  isAuthenticated: !!localStorage.getItem('token'),
+  isAuthenticated: false,
+  isLoading: true, // true initially while checking auth status
+  error: null,
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<{ user: User; access_token: string }>) => {
+    /**
+     * SECURITY FIX: No almacenamos tokens en el estado
+     * Los tokens están en cookies HTTP-Only gestionadas por el servidor
+     */
+    setCredentials: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user
-      state.token = action.payload.access_token
       state.isAuthenticated = true
-      localStorage.setItem('token', action.payload.access_token)
+      state.isLoading = false
+      state.error = null
+      // NO guardamos token - está en cookie HTTP-Only del servidor
     },
+
+    /**
+     * Limpia el estado de autenticación
+     * El logout real se hace en el servidor que limpia las cookies
+     */
     logout: (state) => {
       state.user = null
-      state.token = null
       state.isAuthenticated = false
-      localStorage.removeItem('token')
+      state.isLoading = false
+      state.error = null
+      // NO necesitamos limpiar localStorage - no hay tokens ahí
+    },
+
+    /**
+     * Marca como cargando durante verificación de auth
+     */
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload
+    },
+
+    /**
+     * Establece error de autenticación
+     */
+    setAuthError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload
+      state.isLoading = false
+    },
+
+    /**
+     * Limpia errores de autenticación
+     */
+    clearAuthError: (state) => {
+      state.error = null
     },
   },
 })
 
-export const { setCredentials, logout } = authSlice.actions
+export const {
+  setCredentials,
+  logout,
+  setLoading,
+  setAuthError,
+  clearAuthError
+} = authSlice.actions
+
 export default authSlice.reducer
